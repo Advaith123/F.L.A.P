@@ -1,16 +1,35 @@
-from flask import Flask, jsonify
-import Getting_data as d
-# from flask_jsonify import jsonify
-app = Flask(__name__)
+from flask import Flask, jsonify, request 
+from datetime import datetime
+  
+# creating a Flask app 
+app = Flask(__name__) 
+  
+# on the terminal type: curl http://127.0.0.1:5000/ 
+# returns hello world when we use GET. 
+# returns the data that we send when we use POST. 
+@app.route('/', methods = ['GET', 'POST']) 
+def home(): 
+    if(request.method == 'GET'): 
+  
+        data = "hello world"
+        return jsonify({'data': data}) 
+  
+  
+# A simple function to calculate the square of a number 
+# the number to be squared is sent in the URL when we use GET 
+# on the terminal type: curl http://127.0.0.1:5000 / home / 10 
+# this returns 100 (square of 10) 
+@app.route('/square/<int:num>', methods = ['GET']) 
+def disp(num): 
+  
+    return jsonify({'data': num**2}) 
+  
+@app.route('/now', methods = ['GET']) 
+def time():
+    t = datetime.utcnow()
+    return jsonify({'time':t})  
 
-@app.route('/home')
-def home():
-    return d.final_df.to_json()
-
-
-@app.route('/')
-def plswork():
-    return "<h1>Hello World!!!!!!!!!!!!!!!!!!!!!!!!!</h1>"
-
-if __name__ == "__main__":
-    app.run(debug=True)
+# driver function 
+if __name__ == '__main__': 
+  
+    app.run(debug = True) 
