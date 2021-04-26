@@ -1,5 +1,5 @@
   
-from app.app import app
+from app.restapi import app
 
 if __name__ == "__main__":
         app.run()
